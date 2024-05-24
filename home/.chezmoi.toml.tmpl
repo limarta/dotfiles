@@ -1,0 +1,9 @@
+{{- $email := "" -}}
+{{- if hasKey . "email" -}}
+{{-   $email = .email -}}
+{{- else -}}
+{{-   $email = promptString "Email address" -}}
+{{- end -}}
+
+[data]
+    email = {{ $email | quote }}
