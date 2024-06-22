@@ -137,3 +137,5 @@ source "${HOME%/}/.rye/env"
 export PATH="${PATH}:${HOME}/bin"
 
 [[ -s /home/ubuntu/.autojump/etc/profile.d/autojump.sh ]] && source /home/ubuntu/.autojump/etc/profile.d/autojump.sh
+
+export JULIA_NUM_THREADS=8
