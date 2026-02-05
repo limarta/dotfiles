@@ -124,6 +124,18 @@ function destroy_workspace() {
     echo "💀 All tagged instances destroyed."
 }
 
+# Function to show current instance ID(s)
+function show_status() {
+    INSTANCES=$(vastai show instances --raw | jq -r ".[] | select(.label == \"$LABEL_TAG\")")
+
+    if [ -z "$INSTANCES" ] || [ "$INSTANCES" == "[]" ]; then
+        echo "No instances found with label '$LABEL_TAG'."
+        exit 0
+    fi
+
+    echo "$INSTANCES" | jq -r '"Instance \(.id)  status=\(.actual_status)  gpu=\(.gpu_name)  dph=$\(.dph_total)"'
+}
+
 # CLI Argument Parsing
 if [ "$1" == "start" ]; then
     start_workspace
@@ -131,7 +143,9 @@ elif [ "$1" == "setup" ]; then
     setup_instance $2
 elif [ "$1" == "destroy" ]; then
     destroy_workspace
+elif [ "$1" == "status" ]; then
+    show_status
 else
-    echo "Usage: $0 {start|setup <instance_id>|destroy}"
+    echo "Usage: $0 {start|setup <instance_id>|destroy|status}"
     exit 1
 fi
